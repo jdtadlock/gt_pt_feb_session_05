@@ -3,7 +3,10 @@ import { Route, withRouter } from 'react-router-dom';
 
 import Auth from './Auth';
 
+import Header from './components/Header';
 import Callback from './components/Callback';
+import Landing from './components/Landing';
+import Dashboard from './components/Dashboard';
 // import axios from 'axios';
 
 // src/Auth/Auth.js
@@ -23,18 +26,14 @@ class App extends Component {
 
     return (
       <div>
-        <header>
-          <h3>Logo</h3>
+        <Header isAuth={isAuth} auth={auth} />     
 
-          <p>{isAuth}</p>
 
-          <nav>
-            <span>{isAuth ? localStorage.getItem('user_email') : <button onClick={auth.login}>Login</button> }</span>
-
-            {isAuth ? <span onClick={auth.logout}>Logout</span> : ''}
-          </nav>
-        </header>
-
+        <Route path="/" render={() => (
+          <main>
+            {isAuth ? <Dashboard /> : <Landing />}
+          </main>
+        )} />
         
         <Route path="/callback" render={() => (
           <Callback processAuth={auth.processAuthentication} />
